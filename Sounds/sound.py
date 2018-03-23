@@ -1,25 +1,31 @@
 # Import libraries used in this program
+# the RPI.GPIO library is used by Python to interface with the RPi Hardware
 import RPi.GPIO as GPIO
+# time is an incedibly useful python library that gives you access to commands for time
 import time
+# decimal allows you to work with decimal notation for numbers - very useful for high-precision
 from decimal import *
+# the math library allows you to perform standard math functions
 import math
+# here we are setting a decimal precision to use for accuracy in our math later - 4 decimal places
+# is realtively good precision for this project
 getcontext().prec = 4
 
-# I will be outputting to a website for a real-time view of noise detection events
-# for debugging you should leave this commented out
-# This is the placeholder code for that
+# We will be outputting to a website for a real-time view of noise detection events.
+# for debugging you should leave this section commented out:
 #with open('/var/www/html/sound.html', 'w') as the_file:
 #	the_file.write('<H1>This is more usefull stuff</H1>\n')
 
-# Startup message
+# Startup message - will print to the console only
 print "Preparing to monitor sound levels"
+print "You can gracefully exit the command by pressing ctrl-C"
 
-# Set our pin assignments
+# Set our GPIO pin assignments to the right pins
 sensor_in = 18
 red_led = 21
 green_led = 20
-
-#Simple string for printing an output on detection - can be removed
+# Simple string for printing an output on detection - used during debugging and tuning
+# not needed for the final "service" version
 Is_Loud = "No"
 
 #various counters used for determining the thresholds for sensitivity and detection
@@ -28,17 +34,18 @@ Loud_Count = 0
 per_detected = 0
 time_loop = 15
 
-# loop count is used in the non-service example for controlling how long the rpogram runs.
+# loop count is used in the non-service example for controlling how long the program runs.
 loop_count = 0
-# Max loop is determined by the tuning exercise I describe in my blog video
-# at linkedin.com/in/chrisharrold - look for the post on detection tuning
+
+# Max loop is determined by the tuning exercise this program allows you to undertake
+# 30000 is a good starting point - it is how many times the program will sample for noise
 max_loop = 30000
 
 # This value is the final threshold where the system will take action
 # it is the value of the number of times loud sound was detected
 # versus the number of times the sensor was polled. Unless
 # you are looking for spikes amidst loud noise, this number will be
-# likely be .01 or even significantly less
+# likely be .01 or even less
 a_threshold = .01
 
 # How long between sound level checks - not required, but you 

@@ -32,7 +32,7 @@ Is_Loud = "No"
 #as well as the time of the loop and frequency for debugging
 Loud_Count = 0
 per_detected = 0
-time_loop = 15
+time_loop = 5
 
 # loop count is used in the non-service example for controlling how long the program runs.
 loop_count = 0
@@ -73,10 +73,6 @@ try:
 	# Primary monitor is a "while" loop that will keep the monitor running 
 	# indefinitely as a soft service.
 	#
-	# This first syntax will lock the loop into a time window, 5 seconds 
-	# by default as definied by the time_loop variable.
-	# This is extremely useful for debugging, and for threshold detection.
-	#
 	# The microphone sensor is notoriously hard to tune for threshold
 	# and having this will allow you to figure out the number of events
 	# in a fixed window of time. This means you can divide by the number
@@ -84,7 +80,9 @@ try:
 	# to define the sensitivity in software and not rely solely on the
 	# sensor itself.
 	#	
-	# You can remove this version once the sensitivity is reliable:
+	# This first syntax will lock the loop into a time window (5 seconds 
+	# by default as definied by the time_loop variable)
+	# This is extremely useful for debugging, and for threshold detection.
 
 	t_end = time.time() + time_loop
 	while time.time() < t_end:
@@ -145,6 +143,11 @@ except (KeyboardInterrupt, SystemExit):
 	print "Total loops run: " + str(loop_count)
 	print " "
 	print "-------------------------------------------"
+
+	# Having this command is a best practice for all Raspberry Pi programs!
+	# It ensures that the GPIO pins are all reset to defaults (off) state
+	# when the program exits. Important so that you don't have errors on the
+	# next program run!
 	GPIO.cleanup()
 
 else:

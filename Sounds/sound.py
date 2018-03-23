@@ -17,8 +17,8 @@ getcontext().prec = 4
 #	the_file.write('<H1>This is more usefull stuff</H1>\n')
 
 # Startup message - will print to the console only
-print "Preparing to monitor sound levels"
-print "You can gracefully exit the command by pressing ctrl-C"
+print("Preparing to monitor sound levels")
+print("You can gracefully exit the command by pressing ctrl-C")
 
 # Set our GPIO pin assignments to the right pins
 sensor_in = 18
@@ -65,7 +65,7 @@ GPIO.output(red_led, GPIO.LOW)
 # Then turn on the green - no noise light - and confirm system is online.
 GPIO.output(green_led, GPIO.HIGH)
 GPIO.output(red_led, GPIO.LOW)
-print "GPIO set. Service starting. Press ctrl-c to break"
+print("GPIO set. Service starting. Press ctrl-c to break")
 
 # Main try block to handle the exception conditions
 try:	
@@ -109,7 +109,7 @@ try:
 		
 		# have we hit our threshold yet?		 
 		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
-		print "Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold) 
+		print("Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold))
 		
 		# Lets see if we have actually detected a sound that meets the
 		# threshold? If so, we will turn on the red light and it will stay on
@@ -132,17 +132,17 @@ except (KeyboardInterrupt, SystemExit):
 	
 	#If the system is interrupted (ctrl-c) this will print the final values
 	#so that you have at least some idea of what happened
-	print "-------------------------------------------"
-	print " "
-	print "System Reset on Keyboard Command or SysExit"
-	print " "
-	print "Final Detection was " + str(Is_Loud)
-	print " "
-	print "Total Noises Detected: " + str(Loud_Count)
-	print " "
-	print "Total loops run: " + str(loop_count)
-	print " "
-	print "-------------------------------------------"
+	print("-------------------------------------------")
+	print(" ")
+	print("System Reset on Keyboard Command or SysExit")
+	print(" ")
+	print("Final Detection was " + str(Is_Loud))
+	print(" ")
+	print("Total Noises Detected: " + str(Loud_Count))
+	print(" ")
+	print("Total loops run: " + str(loop_count))
+	print(" ")
+	print("-------------------------------------------")
 
 	# Having this command is a best practice for all Raspberry Pi programs!
 	# It ensures that the GPIO pins are all reset to defaults (off) state
@@ -153,17 +153,16 @@ except (KeyboardInterrupt, SystemExit):
 else:
 	
 	GPIO.cleanup()
-
-        # You can remove this entire block once you go to "production" mode
-		# but these values are critical for the initial tuning phase.
-        print "-------------------------------------------"
-        print " "
-        print "System Reset on Keyboard Command or SysExit"
-        print " "
-        print "Final Detection was " + str(Is_Loud)
-        print " "
-        print "Total Noises Detected: " + str(Loud_Count)
-        print " "
-        print "Total loops run: " + str(loop_count)
-        print " "
-        print "-------------------------------------------"
+	# You can remove this entire block once you go to "production" mode
+	# but these values are critical for the initial tuning phase.
+	print("-------------------------------------------")
+	print(" ")
+	print("System Reset on Keyboard Command or SysExit")
+	print(" ")
+	print("Final Detection was " + str(Is_Loud))
+	print(" ")
+	print("Total Noises Detected: " + str(Loud_Count))
+	print(" ")
+	print("Total loops run: " + str(loop_count))
+	print(" ")
+	print("-------------------------------------------")

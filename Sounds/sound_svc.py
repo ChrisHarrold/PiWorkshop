@@ -7,7 +7,7 @@ import math
 getcontext().prec = 4
 
 # Startup message
-print "Preparing to monitor sound levels"
+print("Preparing to monitor sound levels")
 	
 # Set our pin assignments
 sensor_in = 18
@@ -17,7 +17,8 @@ green_led = 20
 #Simple string for printing an output on detection - can be removed for quiet running
 Is_Loud = "No"
 
-# Web output settings:
+# Web output file definition - this file is called by the sound.html webpage and used to
+# display the status of the sound detection
 web_file = "/var/www/html/level.js"
 
 # Various counters used for determining the thresholds for sensitivity and detection
@@ -57,7 +58,7 @@ GPIO.output(red_led, GPIO.LOW)
 GPIO.output(green_led, GPIO.HIGH)
 GPIO.output(red_led, GPIO.LOW)
 
-print "Readying Web Output File"
+print("Readying Web Output File")
 # Opens and preps the HTML file for the first time. Will remove anything it
 # finds in the file and prep it with this default:
 with open(web_file + '.new', 'w') as f_output:
@@ -65,7 +66,7 @@ with open(web_file + '.new', 'w') as f_output:
 
 os.rename(web_file + '.new', web_file)
 
-print "GPIO set. Service starting. Press ctrl-c to break"
+print("GPIO set. Service starting. Press ctrl-c to break")
 
 # Main try block to handle the exception conditions
 try:	
@@ -109,27 +110,27 @@ try:
 			Loud_Count = Loud_Count + 1
 
 		
-		# have we hit our threshold yet?		 
+		# have we hit our threshold yet?	 
 		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
-		# You can un-remark the line to print the detected and threshold value each loop
-		# which is useful for the debugging, but takes cycles away from computation
 		
+		# You can un-remark the following line to print the detected and threshold value each loop
+		# which is useful for the debugging, but takes cycles away from computation
+
 		#print "Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold)
 		
 		# write it to the .js file for web display if per_detected is high enough to trigger
-		# the output otherwise, just leave it alone (saves CPU but causes a minor 'bleed'
+		# the output, otherwise just leave it alone (saves CPU but causes a minor 'lag'
 		# where the last per_detected could be displayed for a long time
 		if per_detected > 0:
 			with open(web_file + '.new', 'w') as f_output:
    				f_output.write("var int_level = " + str(per_detected))
-				os.rename(web_file + '.new', web_file)
+				   os.rename(web_file + '.new', web_file)
 		
-		# Lets see if we have actually detected a sound that meets the
-		# threshold? If so, we will turn on the red light and it will stay on
+		# have we actually detected a sound that meets the threshold? 
+		# If so, we will turn on the red light and it will stay on
 		# until the sound drops under the threshold again.
 		if per_detected > a_threshold:
 			GPIO.output(red_led, GPIO.HIGH)
-
 		else:
 			GPIO.output(red_led, GPIO.LOW)
 
@@ -140,6 +141,10 @@ try:
 			loop_count = 0
 			per_detected = 0
 			Loud_Count = 0
+			
+			# this is where we reset the web file and is the source of the lag. if you hit the sound
+			# threshold right away on the start of a new loop, it could be a few seconds before the
+			# display is reset
 			with open(web_file + '.new', 'w') as f_output:
     				f_output.write("var int_level = 0 ")
     				os.rename(web_file + '.new', web_file)
@@ -149,17 +154,17 @@ except (KeyboardInterrupt, SystemExit):
 	
 	# If the system is interrupted (ctrl-c) this will print the final values
 	# so that you have at least some idea of what happened
-	print "-------------------------------------------"
-	print " "
-	print "System Reset on Keyboard Command or SysExit"
-	print " "
-	print "Final Detection was " + str(Is_Loud)
-	print " "
-	print "Total Noises Detected: " + str(Loud_Count)
-	print " "
-	print "Total loops run: " + str(loop_count)
-	print " "
-	print "-------------------------------------------"
+	print("-------------------------------------------")
+	print(" ")
+	print("System Reset on Keyboard Command or SysExit")
+	print(" ")
+	print("Final Detection was " + str(Is_Loud))
+	print(" ")
+	print("Total Noises Detected: " + str(Loud_Count))
+	print(" ")
+	print("Total loops run: " + str(loop_count))
+	print(" ")
+	print("-------------------------------------------")
 	GPIO.cleanup()
 
 else:
@@ -168,14 +173,14 @@ else:
 
         # You can remove this entire block once you go to "production" mode
 		# but these values are critical for the initial tuning phase.
-        print "-------------------------------------------"
-        print " "
-        print "System Reset on Keyboard Command or SysExit"
-        print " "
-        print "Final Detection was " + str(Is_Loud)
-        print " "
-        print "Total Noises Detected: " + str(Loud_Count)
-        print " "
-        print "Total loops run: " + str(loop_count)
-        print " "
-        print "-------------------------------------------"
+	print("-------------------------------------------")
+	print(" ")
+	print("System Reset on Keyboard Command or SysExit")
+	print(" ")
+	print("Final Detection was " + str(Is_Loud))
+	print(" ")
+	print("Total Noises Detected: " + str(Loud_Count))
+	print(" ")
+	print("Total loops run: " + str(loop_count))
+	print(" ")
+	print("-------------------------------------------")

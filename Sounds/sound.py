@@ -24,9 +24,6 @@ print("You can gracefully exit the command by pressing ctrl-C")
 sensor_in = 18
 red_led = 21
 green_led = 20
-# Simple string for printing an output on detection - used during debugging and tuning
-# not needed for the final "service" version
-Is_Loud = "No"
 
 #various counters used for determining the thresholds for sensitivity and detection
 #as well as the time of the loop and frequency for debugging
@@ -103,7 +100,6 @@ try:
 		# If sound is loud enough, the GPIO PIN will switch state to HIGH
 		# record the occurance and add it to the count for computation
 		if GPIO.input(sensor_in) == GPIO.HIGH:
-			Is_Loud = "Loudness Detected"
 			Loud_Count = Loud_Count + 1
 
 		
@@ -115,6 +111,7 @@ try:
 		# threshold? If so, we will turn on the red light and it will stay on
 		# until the sound drops under the threshold again.
 		if per_detected > a_threshold:
+			print("LOUD LOUD LOUD")
 			GPIO.output(red_led, GPIO.HIGH)
 
 		else:

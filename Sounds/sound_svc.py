@@ -1,9 +1,14 @@
 # Import libraries used in this program
+# the RPI.GPIO library is used by Python to interface with the RPi Hardware
 import RPi.GPIO as GPIO
-import os, sys
+# time is an incedibly useful python library that gives you access to commands for time
 import time
+# decimal allows you to work with decimal notation for numbers - very useful for high-precision
 from decimal import *
+# the math library allows you to perform standard math functions
 import math
+# here we are setting a decimal precision to use for accuracy in our math later - 4 decimal places
+# is realtively good precision for this project
 getcontext().prec = 4
 
 # Startup message
@@ -13,9 +18,6 @@ print("Preparing to monitor sound levels")
 sensor_in = 18
 red_led = 21
 green_led = 20
-
-#Simple string for printing an output on detection - can be removed for quiet running
-Is_Loud = "No"
 
 # Web output file definition - this file is called by the sound.html webpage and used to
 # display the status of the sound detection
@@ -124,7 +126,7 @@ try:
 		if per_detected > 0:
 			with open(web_file + '.new', 'w') as f_output:
    				f_output.write("var int_level = " + str(per_detected))
-				   os.rename(web_file + '.new', web_file)
+				os.rename(web_file + '.new', web_file)
 		
 		# have we actually detected a sound that meets the threshold? 
 		# If so, we will turn on the red light and it will stay on

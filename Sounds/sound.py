@@ -57,6 +57,7 @@ GPIO.setup(sensor_in, GPIO.IN)
 
 #this is our work function - if the sensor is triggered, we will do work here
 def callback(sensor_in): 
+	global Loud_Count
 	# did we detect something?
 	if GPIO.input(sensor_in):
 

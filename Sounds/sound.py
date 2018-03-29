@@ -59,7 +59,7 @@ GPIO.setup(sensor_in, GPIO.IN)
 #this is our work function - if the sensor is triggered, we will do work here
 def callback(sensor_in): 
 	# did we detect something?
-	if GPIO.input(channel):
+	if GPIO.input(sensor_in):
 		# We have NOISE! Add it to the count of Loud events
 		Loud_Count = Loud_Count + 1
 		

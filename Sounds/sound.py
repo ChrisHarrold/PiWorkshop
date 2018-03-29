@@ -49,7 +49,7 @@ a_threshold = .01
 # can slow it down if needed for debuging or just for funsies
 interval = .5
 
-# Setup GPIO commands and pins and cleanup pins in case of errors
+# Setup GPIO commands and pins
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(red_led, GPIO.OUT)
 GPIO.setup(green_led, GPIO.OUT)
@@ -60,6 +60,7 @@ def callback(sensor_in):
 	global Loud_Count, loop_count, per_detected, max_loop
 	# did we detect something?
 	if GPIO.input(sensor_in):
+		GPIO.output(red_led, GPIO.HIGH)
 
 		# We have NOISE! Add it to the count of Loud events
 		Loud_Count = Loud_Count + 1
@@ -71,11 +72,6 @@ def callback(sensor_in):
 		# Lets see if we have actually detected a sound that meets the
 		# threshold? If so, we will turn on the red light and it will stay on
 		# until the sound drops under the threshold again.
-		if per_detected > a_threshold:
-			print("LOUD LOUD LOUD")
-			GPIO.output(red_led, GPIO.HIGH)
-		else:
-			GPIO.output(red_led, GPIO.LOW)
 
 		# Lastly for the main body, we catch our loop count before it gets to max_loop
 		# and reset everything to keep everything running, and our math accurate:
@@ -85,7 +81,7 @@ def callback(sensor_in):
 			Loud_Count = 0
 	
 	else:
-		print "Nope - no sound"
+		GPIO.output(red_led, GPIO.LOW)
 
 # Make sure the pins start off in the LOW state
 GPIO.output(green_led, GPIO.LOW)

@@ -7,6 +7,8 @@ import time
 from decimal import *
 # the math library allows you to perform standard math functions
 import math
+# the OS module allows us to use the file system
+import os
 # here we are setting a decimal precision to use for accuracy in our math later - 4 decimal places
 # is realtively good precision for this project
 getcontext().prec = 4

@@ -12,7 +12,7 @@ def callback(channel):
         else:
                 print "Sound Detected!"
 
-GPIO.add_event_detect(channel, GPIO.RISING, bouncetime=300)  # let us know when the pin goes HIGH
+GPIO.add_event_detect(channel, GPIO.RISING, bouncetime=300)  # let us know when the pin goes RISING
 GPIO.add_event_callback(channel, callback)  # assign function to GPIO PIN, Run function on change
 
 # infinite loop

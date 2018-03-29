@@ -35,8 +35,8 @@ time_loop = 5
 loop_count = 0
 
 # Max loop is determined by the tuning exercise this program allows you to undertake
-# 1000000 is a good starting point - it is how many times the program will sample for noise
-max_loop = 1000000
+# 10000000 is a good starting point - it is how many times the program will sample for noise
+max_loop = 10000000
 
 # This value is the final threshold where the system will take action
 # it is the value of the number of times loud sound was detected

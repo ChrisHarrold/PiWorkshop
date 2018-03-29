@@ -79,6 +79,7 @@ def callback(sensor_in):
 			loop_count = 0
 			per_detected = 0
 			Loud_Count = 0
+			GPIO.output(red_led, GPIO.LOW)
 
 # Make sure the pins start off in the LOW state
 GPIO.output(green_led, GPIO.LOW)
@@ -90,11 +91,10 @@ GPIO.output(red_led, GPIO.LOW)
 print("GPIO set. Service starting. Press ctrl-c to break")
 
 # If sound is loud enough, the GPIO PIN will switch state
-# record the occurance and add it to the count for computation
 GPIO.add_event_detect(sensor_in, GPIO.RISING, bouncetime=300)  # let us know when the pin is triggered
 GPIO.add_event_callback(sensor_in, callback)  # assign function to GPIO PIN, Run function on change
 
-# Main try block to handle the exception conditions
+# try block to handle the exception conditions and run the program loop
 try:	
 	# This syntax will lock the loop into a time window (5 seconds 
 	# by default as definied by the time_loop variable)
@@ -102,11 +102,10 @@ try:
 
 	# Now we get to the actual loop and start detecting sound
 	t_end = time.time() + time_loop
-	while time.time() < t_end:
+	while(True): # time.time() < t_end:
 		# Count the number of iterations - important for determining 
 		# sustained detection versus flutter in the sensor
 		loop_count = loop_count + 1
-		GPIO.output(red_led, GPIO.LOW)
 			
 
 except (KeyboardInterrupt, SystemExit):

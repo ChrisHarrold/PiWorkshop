@@ -56,13 +56,35 @@ GPIO.setup(red_led, GPIO.OUT)
 GPIO.setup(green_led, GPIO.OUT)
 GPIO.setup(sensor_in, GPIO.IN)
 
-def callback(sensor_in):
-        if GPIO.input(channel):
+#this is our work function - if the sensor is triggered, we will do work here
+def callback(sensor_in): 
+        # did we detect something?
+		if GPIO.input(channel):
+			# We have NOISE! Add it to the count of Loud events
 			Loud_Count = Loud_Count + 1
-			print "Sound Detected!"
-        else:
-			print "Nope"
+			
+			# have we hit our threshold of noises yet?		 
+			per_detected = Decimal(Loud_Count) / Decimal(loop_count)
+			print("Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold))
+			
+			# Lets see if we have actually detected a sound that meets the
+			# threshold? If so, we will turn on the red light and it will stay on
+			# until the sound drops under the threshold again.
+			if per_detected > a_threshold:
+				print("LOUD LOUD LOUD")
+				GPIO.output(red_led, GPIO.HIGH)
+			else:
+				GPIO.output(red_led, GPIO.LOW)
 
+			# Lastly for the main body, we catch our loop count before it gets to max_loop
+			# and reset everything to keep everything running, and our math accurate:
+			if loop_count == max_loop:
+				loop_count = 0
+				per_detected = 0
+				Loud_Count = 0
+
+        else:
+			print "Nope - no sound"
 
 # Make sure the pins start off in the LOW state
 GPIO.output(green_led, GPIO.LOW)
@@ -73,19 +95,13 @@ GPIO.output(green_led, GPIO.HIGH)
 GPIO.output(red_led, GPIO.LOW)
 print("GPIO set. Service starting. Press ctrl-c to break")
 
+# If sound is loud enough, the GPIO PIN will switch state
+# record the occurance and add it to the count for computation
+GPIO.add_event_detect(sensor_in, GPIO.RISING, bouncetime=300)  # let us know when the pin is triggered
+GPIO.add_event_callback(sensor_in, callback)  # assign function to GPIO PIN, Run function on change
+
 # Main try block to handle the exception conditions
 try:	
-
-	# Primary monitor is a "while" loop that will keep the monitor running 
-	# indefinitely as a soft service.
-	#
-	# The microphone sensor is notoriously hard to tune for threshold
-	# and having this will allow you to figure out the number of events
-	# in a fixed window of time. This means you can divide by the number
-	# of events versus the number of times the monitor looked for an event,
-	# to define the sensitivity in software and not rely solely on the
-	# sensor itself.
-	#	
 	# This syntax will lock the loop into a time window (5 seconds 
 	# by default as definied by the time_loop variable)
 	# This is extremely useful for debugging, and for threshold detection.
@@ -93,36 +109,9 @@ try:
 	# Now we get to the actual loop and start detecting sound
 	t_end = time.time() + time_loop
 	while time.time() < t_end:
-
 		# Count the number of iterations - important for determining 
 		# sustained detection versus flutter in the sensor
 		loop_count = loop_count + 1
-		
-		# If sound is loud enough, the GPIO PIN will switch state
-		# record the occurance and add it to the count for computation
-		GPIO.add_event_detect(sensor_in, GPIO.RISING, bouncetime=300)  # let us know when the pin is triggered
-		GPIO.add_event_callback(sensor_in, callback)  # assign function to GPIO PIN, Run function on change
-	
-		# have we hit our threshold yet?		 
-		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
-		print("Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold))
-		
-		# Lets see if we have actually detected a sound that meets the
-		# threshold? If so, we will turn on the red light and it will stay on
-		# until the sound drops under the threshold again.
-		if per_detected > a_threshold:
-			print("LOUD LOUD LOUD")
-			GPIO.output(red_led, GPIO.HIGH)
-
-		else:
-			GPIO.output(red_led, GPIO.LOW)
-
-		# Lastly for the main body, we catch our loop count before it gets to max_loop
-		# and reset everything to keep everything running, and our math accurate:
-		if loop_count == max_loop:
-			loop_count = 0
-			per_detected = 0
-			Loud_Count = 0
 			
 
 except (KeyboardInterrupt, SystemExit):

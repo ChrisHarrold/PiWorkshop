@@ -18,7 +18,7 @@ getcontext().prec = 4
 
 # Startup message - will print to the console only
 print("Preparing to monitor sound levels")
-print("You can gracefully exit the command by pressing ctrl-C")
+print("You can gracefully exit the program by pressing ctrl-C")
 
 # Set our GPIO pin assignments to the right pins
 sensor_in = 18
@@ -68,6 +68,7 @@ def callback(sensor_in):
 		# have we hit our threshold of noises yet?		 
 		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
 		print("Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold))
+		print(str(loop_count) + "loops and " + str(Loud_Count) + "events")
 		
 		# Lets see if we have actually detected a sound that meets the
 		# threshold? If so, we will turn on the red light and it will stay on

@@ -51,7 +51,6 @@ interval = .5
 
 # Setup GPIO commands and pins and cleanup pins in case of errors
 GPIO.setmode(GPIO.BCM)
-GPIO.cleanup()
 GPIO.setup(red_led, GPIO.OUT)
 GPIO.setup(green_led, GPIO.OUT)
 GPIO.setup(sensor_in, GPIO.IN)
@@ -60,6 +59,7 @@ GPIO.setup(sensor_in, GPIO.IN)
 def callback(sensor_in): 
 	# did we detect something?
 	if GPIO.input(sensor_in):
+
 		# We have NOISE! Add it to the count of Loud events
 		Loud_Count = Loud_Count + 1
 		
@@ -122,8 +122,6 @@ except (KeyboardInterrupt, SystemExit):
 	print(" ")
 	print("System Reset on Keyboard Command or SysExit")
 	print(" ")
-	print("Final Detection was " + str(Is_Loud))
-	print(" ")
 	print("Total Noises Detected: " + str(Loud_Count))
 	print(" ")
 	print("Total loops run: " + str(loop_count))
@@ -144,8 +142,6 @@ else:
 	print("-------------------------------------------")
 	print(" ")
 	print("System Reset on Keyboard Command or SysExit")
-	print(" ")
-	print("Final Detection was " + str(Is_Loud))
 	print(" ")
 	print("Total Noises Detected: " + str(Loud_Count))
 	print(" ")

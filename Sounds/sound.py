@@ -58,34 +58,33 @@ GPIO.setup(sensor_in, GPIO.IN)
 
 #this is our work function - if the sensor is triggered, we will do work here
 def callback(sensor_in): 
-        # did we detect something?
-		if GPIO.input(channel):
-			# We have NOISE! Add it to the count of Loud events
-			Loud_Count = Loud_Count + 1
-			
-			# have we hit our threshold of noises yet?		 
-			per_detected = Decimal(Loud_Count) / Decimal(loop_count)
-			print("Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold))
-			
-			# Lets see if we have actually detected a sound that meets the
-			# threshold? If so, we will turn on the red light and it will stay on
-			# until the sound drops under the threshold again.
-			if per_detected > a_threshold:
-				print("LOUD LOUD LOUD")
-				GPIO.output(red_led, GPIO.HIGH)
-			else:
-				GPIO.output(red_led, GPIO.LOW)
+	# did we detect something?
+	if GPIO.input(channel):
+		# We have NOISE! Add it to the count of Loud events
+		Loud_Count = Loud_Count + 1
+		
+		# have we hit our threshold of noises yet?		 
+		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
+		print("Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold))
+		
+		# Lets see if we have actually detected a sound that meets the
+		# threshold? If so, we will turn on the red light and it will stay on
+		# until the sound drops under the threshold again.
+		if per_detected > a_threshold:
+			print("LOUD LOUD LOUD")
+			GPIO.output(red_led, GPIO.HIGH)
+		else:
+			GPIO.output(red_led, GPIO.LOW)
 
-			# Lastly for the main body, we catch our loop count before it gets to max_loop
-			# and reset everything to keep everything running, and our math accurate:
-			if loop_count == max_loop:
-				loop_count = 0
-				per_detected = 0
-				Loud_Count = 0
-			print "Loops Reset"
-
-        else:
-			print "Nope - no sound"
+		# Lastly for the main body, we catch our loop count before it gets to max_loop
+		# and reset everything to keep everything running, and our math accurate:
+		if loop_count == max_loop:
+			loop_count = 0
+			per_detected = 0
+			Loud_Count = 0
+	
+	else:
+		print "Nope - no sound"
 
 # Make sure the pins start off in the LOW state
 GPIO.output(green_led, GPIO.LOW)

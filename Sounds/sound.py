@@ -133,7 +133,7 @@ except (KeyboardInterrupt, SystemExit):
 
 else:
 	
-	GPIO.cleanup()
+
 	# You can remove this entire block once you go to "production" mode
 	# but these values are critical for the initial tuning phase.
 	print("-------------------------------------------")
@@ -145,3 +145,4 @@ else:
 	print("Total loops run: " + str(loop_count))
 	print(" ")
 	print("-------------------------------------------")
+	GPIO.cleanup()

@@ -79,9 +79,6 @@ def callback(sensor_in):
 			loop_count = 0
 			per_detected = 0
 			Loud_Count = 0
-	
-	else:
-		GPIO.output(red_led, GPIO.LOW)
 
 # Make sure the pins start off in the LOW state
 GPIO.output(green_led, GPIO.LOW)
@@ -109,6 +106,7 @@ try:
 		# Count the number of iterations - important for determining 
 		# sustained detection versus flutter in the sensor
 		loop_count = loop_count + 1
+		GPIO.output(red_led, GPIO.LOW)
 			
 
 except (KeyboardInterrupt, SystemExit):

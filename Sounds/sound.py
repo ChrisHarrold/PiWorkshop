@@ -99,7 +99,7 @@ try:
 		
 		# If sound is loud enough, the GPIO PIN will switch state
 		# record the occurance and add it to the count for computation
-		GPIO.add_event_detect(sensor_in, GPIO.BOTH, bouncetime=300)  # let us know when the pin goes HIGH or LOW
+		GPIO.add_event_detect(sensor_in, GPIO.RISING, bouncetime=300)  # let us know when the pin is triggered
 		GPIO.add_event_callback(sensor_in, callback)  # assign function to GPIO PIN, Run function on change
 	
 		# have we hit our threshold yet?		 

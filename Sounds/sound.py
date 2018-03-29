@@ -57,12 +57,10 @@ GPIO.setup(sensor_in, GPIO.IN)
 
 def callback(sensor_in):
         if GPIO.input(channel):
+				Loud_Count = Loud_Count + 1
                 print "Sound Detected!"
         else:
-                print "Sound Detected!"
-
-GPIO.add_event_detect(sensor_in, GPIO.BOTH, bouncetime=300)  # let us know when the pin goes HIGH or LOW
-GPIO.add_event_callback(sensor_in, callback)  # assign function to GPIO PIN, Run function on change
+                print "Nope"
 
 
 # Make sure the pins start off in the LOW state
@@ -91,22 +89,19 @@ try:
 	# by default as definied by the time_loop variable)
 	# This is extremely useful for debugging, and for threshold detection.
 
+	# Now we get to the actual loop and start detecting sound
 	t_end = time.time() + time_loop
 	while time.time() < t_end:
-	
 
-	# Now we get to the actual loop and start detecting sound
-		
 		# Count the number of iterations - important for determining 
 		# sustained detection versus flutter in the sensor
 		loop_count = loop_count + 1
 		
-		# If sound is loud enough, the GPIO PIN will switch state to HIGH
+		# If sound is loud enough, the GPIO PIN will switch state
 		# record the occurance and add it to the count for computation
-		if GPIO.input(sensor_in) == GPIO.HIGH:
-			Loud_Count = Loud_Count + 1
-
-		
+		GPIO.add_event_detect(sensor_in, GPIO.BOTH, bouncetime=300)  # let us know when the pin goes HIGH or LOW
+		GPIO.add_event_callback(sensor_in, callback)  # assign function to GPIO PIN, Run function on change
+	
 		# have we hit our threshold yet?		 
 		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
 		print("Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold))

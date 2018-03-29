@@ -73,13 +73,6 @@ def callback(sensor_in):
 		# threshold? If so, we will turn on the red light and it will stay on
 		# until the sound drops under the threshold again.
 
-		# Lastly for the main body, we catch our loop count before it gets to max_loop
-		# and reset everything to keep everything running, and our math accurate:
-		if loop_count == max_loop:
-			loop_count = 0
-			per_detected = 0
-			Loud_Count = 0
-			GPIO.output(red_led, GPIO.LOW)
 
 # Make sure the pins start off in the LOW state
 GPIO.output(green_led, GPIO.LOW)
@@ -106,6 +99,15 @@ try:
 		# Count the number of iterations - important for determining 
 		# sustained detection versus flutter in the sensor
 		loop_count = loop_count + 1
+
+		# Lastly for the main body, we catch our loop count before it gets to max_loop
+		# and reset everything to keep everything running, and our math accurate:
+		if loop_count == max_loop:
+			print("Reseting Counters")
+			loop_count = 0
+			per_detected = 0
+			Loud_Count = 0
+			GPIO.output(red_led, GPIO.LOW)
 			
 
 except (KeyboardInterrupt, SystemExit):

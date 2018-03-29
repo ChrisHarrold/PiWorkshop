@@ -36,7 +36,7 @@ loop_count = 0
 
 # Max loop is determined by the tuning exercise this program allows you to undertake
 # 30000 is a good starting point - it is how many times the program will sample for noise
-max_loop = 30000
+max_loop = 300000
 
 # This value is the final threshold where the system will take action
 # it is the value of the number of times loud sound was detected
@@ -106,7 +106,6 @@ try:
 			print("Reseting Counters")
 			loop_count = 0
 			per_detected = 0
-			Loud_Count = 0
 			GPIO.output(red_led, GPIO.LOW)
 			
 

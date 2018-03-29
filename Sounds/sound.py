@@ -50,7 +50,7 @@ a_threshold = .01
 interval = .5
 
 # Setup GPIO commands and pins and cleanup pins in case of errors
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(red_led, GPIO.OUT)
 GPIO.setup(green_led, GPIO.OUT)
 GPIO.setup(sensor_in, GPIO.IN)

@@ -82,6 +82,7 @@ def callback(sensor_in):
 				loop_count = 0
 				per_detected = 0
 				Loud_Count = 0
+			print "Loops Reset"
 
         else:
 			print "Nope - no sound"

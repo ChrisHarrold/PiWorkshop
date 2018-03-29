@@ -57,10 +57,10 @@ GPIO.setup(sensor_in, GPIO.IN)
 
 def callback(sensor_in):
         if GPIO.input(channel):
-				Loud_Count = Loud_Count + 1
-                print "Sound Detected!"
+			Loud_Count = Loud_Count + 1
+			print "Sound Detected!"
         else:
-                print "Nope"
+			print "Nope"
 
 
 # Make sure the pins start off in the LOW state

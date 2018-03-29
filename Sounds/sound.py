@@ -55,6 +55,16 @@ GPIO.setup(red_led, GPIO.OUT)
 GPIO.setup(green_led, GPIO.OUT)
 GPIO.setup(sensor_in, GPIO.IN)
 
+def callback(sensor_in):
+        if GPIO.input(channel):
+                print "Sound Detected!"
+        else:
+                print "Sound Detected!"
+
+GPIO.add_event_detect(sensor_in, GPIO.BOTH, bouncetime=300)  # let us know when the pin goes HIGH or LOW
+GPIO.add_event_callback(sensor_in, callback)  # assign function to GPIO PIN, Run function on change
+
+
 # Make sure the pins start off in the LOW state
 GPIO.output(green_led, GPIO.LOW)
 GPIO.output(red_led, GPIO.LOW)
@@ -77,19 +87,13 @@ try:
 	# to define the sensitivity in software and not rely solely on the
 	# sensor itself.
 	#	
-	# This first syntax will lock the loop into a time window (5 seconds 
+	# This syntax will lock the loop into a time window (5 seconds 
 	# by default as definied by the time_loop variable)
 	# This is extremely useful for debugging, and for threshold detection.
 
 	t_end = time.time() + time_loop
 	while time.time() < t_end:
 	
-	# Using this while statement version simply loops for eternity unless ctrl-c is pressed
-	# and should be your "production" version of the loop based on your
-	# tuning results and the length of the loop that matches your sensitivity needs
-	# my happy default is 30k loops or about 5 seconds:
-	
-	# while loop_count < max_loop:
 
 	# Now we get to the actual loop and start detecting sound
 		

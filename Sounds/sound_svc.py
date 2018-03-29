@@ -60,7 +60,6 @@ GPIO.output(red_led, GPIO.LOW)
 
 # Then turn on the green - no noise light - and confirm system is online.
 GPIO.output(green_led, GPIO.HIGH)
-GPIO.output(red_led, GPIO.LOW)
 
 print("Readying Web Output File")
 # Opens and preps the HTML file for the first time. Will remove anything it

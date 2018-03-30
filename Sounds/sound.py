@@ -36,7 +36,7 @@ print("You can gracefully exit the program by pressing ctrl-C")
 print("Readying Web Output File")
 # Web output file definition - this file is called by the sound.html webpage and used to
 # display the status of the sound detection
-web_file = "/var/www/html/table.html"
+web_file = "/var/www/html/table.shtml"
 
 # Opens and preps the HTML file for the first time. Will remove anything it
 # finds in the file and prep it with this default entry - the replaces old

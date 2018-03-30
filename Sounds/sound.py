@@ -149,7 +149,7 @@ try:
 			
 			# Because we detected sounds, we need to turn on and off our event collector to avoid
 			# "duplicate assignment" errors
-			GPIO.remove_event_detection(sensor_in)
+			GPIO.remove_event_detect(sensor_in)
 			# an extra pause of sleep cycle to make sure everything is cleared out before re-enabling our event detection
 			# if you want to slow down to overall sound detection event, you can raise this number (in seconds)
 			time.sleep(0.25)

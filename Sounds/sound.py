@@ -1,6 +1,8 @@
 # Import libraries used in this program
 # the RPI.GPIO library is used by Python to interface with the RPi Hardware
 import RPi.GPIO as GPIO
+# the OS module allows us to use the file system
+import os
 # time is an incedibly useful python library that gives you access to commands for time
 import time
 # decimal allows you to work with decimal notation for numbers - very useful for high-precision
@@ -11,14 +13,23 @@ import math
 # is realtively good precision for this project
 getcontext().prec = 4
 
-# We will be outputting to a website for a real-time view of noise detection events.
-# for debugging you should leave this section commented out:
-#with open('/var/www/html/sound.html', 'w') as the_file:
-#	the_file.write('<H1>This is more usefull stuff</H1>\n')
-
 # Startup message - will print to the console only
 print("Preparing to monitor sound levels")
 print("You can gracefully exit the program by pressing ctrl-C")
+
+# We will be outputting to a website for a real-time view of noise detection events.
+# for debugging you can leave this section commented out:
+print("Readying Web Output File")
+# Web output file definition - this file is called by the sound.html webpage and used to
+# display the status of the sound detection
+web_file = "/var/www/html/table.html"
+
+# Opens and preps the HTML file for the first time. Will remove anything it
+# finds in the file and prep it with this default entry - the replaces old
+# data so definitely collect that info if you want it!
+with open(web_file + '.new', 'w') as f_output:
+    f_output.write("")
+	os.rename(web_file + '.new', web_file)
 
 # Set our GPIO pin assignments to the right pins
 sensor_in = 18
@@ -35,7 +46,8 @@ time_loop = 5
 loop_count = 0
 
 # Max loop is determined by the tuning exercise this program allows you to undertake
-# 10000000 is a good starting point - it is how many times the program will sample for noise
+# 10000000 is a good starting point - it is the time between counter resets for doing the
+# general math
 max_loop = 10000000
 
 # This value is the final threshold where the system will take action
@@ -64,15 +76,18 @@ def callback(sensor_in):
 
 		# We have NOISE! Add it to the count of Loud events
 		Loud_Count = Loud_Count + 1
-		
-		# have we hit our threshold of noises yet?		 
-		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
-		print("Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold))
-		print(str(loop_count) + "loops and " + str(Loud_Count) + "events")
-		
+
 		# Lets see if we have actually detected a sound that meets the
 		# threshold? If so, we will turn on the red light and it will stay on
 		# until the sound drops under the threshold again.
+		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
+		per_detected = round(per_detected, 4)
+		print("Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold))
+		print(str(loop_count) + "loops and " + str(Loud_Count) + "events")
+		
+		# have we hit our threshold of noises yet?		 
+		with open(web_file + '.new', 'a') as f_output:
+   				f_output.write("")
 
 
 # Make sure the pins start off in the LOW state

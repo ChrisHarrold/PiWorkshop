@@ -3,26 +3,14 @@
   <meta http-equiv="refresh" content="2">
  </head>
  <body>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript" src="http://127.0.0.1/level.js"></script>
-  <script type="text/javascript">
-  
-    google.charts.load('current', {'packages':['gauge']});
-    google.charts.setOnLoadCallback(drawGauge);
-    var gaugeOptions = {min: 0, max: .03, yellowFrom: .007, yellowTo: .01,
-      redFrom: .01, redTo: .03, minorTicks: 5};
-    var gauge;
-	
-    function drawGauge() {
-      gaugeData = new google.visualization.DataTable();
-      gaugeData.addColumn('number', 'Level');
-      gaugeData.addRows(2);
-      gaugeData.setCell(0, 0, int_level);
-
-      gauge = new google.visualization.Gauge(document.getElementById('gauge_div'));
-      gauge.draw(gaugeData, gaugeOptions);
-    }
-  </script>
-  <div id="gauge_div" style="width:400px; height: 200px;" align=center></div>
+  <table width="80%" align="center" cellpadding="2" cellspacing="0" border="1">
+    <tr>
+      <th>Timestamp:</th>
+      <th>Sound Events:</th>
+    </tr>
+    <tr>
+      <!-- #include file="table.html" -->
+    </tr>
+  </table>
  </body>
 </html>

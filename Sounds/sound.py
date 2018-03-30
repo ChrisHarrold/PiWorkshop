@@ -165,11 +165,11 @@ try:
 			with open(web_file, 'a') as f_output:
 				if louds_per > 5:
 					if louds_per > 10:
-						f_output.write("<tr><td align=center bgcolor=red><font color=white>" + str(ptime) + "</td><td align=center bgcolor=red><font color=white>" + str(louds_per) + "</font></td></tr>")
+						f_output.write("<tr><td align=center bgcolor=red><font color=white>At " + str(ptime) + ", it was Loud!!</td><td align=center bgcolor=red><font color=white>" + str(louds_per) + "</font></td></tr>")
 					else:
-						f_output.write("<tr><td align=center bgcolor=orange><font color=white>" + str(ptime) + "</td><td align=center bgcolor=orange><font color=white>" + str(louds_per) + "</font></td></tr>")
+						f_output.write("<tr><td align=center bgcolor=orange><font color=white>At " + str(ptime) + ", it was a little loud.</td><td align=center bgcolor=orange><font color=white>" + str(louds_per) + "</font></td></tr>")
 				else:
-					f_output.write("<tr><td align=center bgcolor=green><font color=white>" + str(ptime) + "</td><td align=center bgcolor=green><font color=white>" + str(louds_per) + "</font></td></tr>")
+					f_output.write("<tr><td align=center bgcolor=green><font color=white>At" + str(ptime) + ", it was pretty quiet.</td><td align=center bgcolor=green><font color=white>" + str(louds_per) + "</font></td></tr>")
 				
 			print("Reseting Counters")
 			loop_count = 0

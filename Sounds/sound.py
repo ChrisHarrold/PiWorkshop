@@ -161,7 +161,7 @@ try:
 		if time.time() > etime:
 			# first we update our output to the web for display:
 			with open(web_file, 'a') as f_output:
-				f_output.write("<tr><td>" + ptime + "</td><td>" + Loud_Count + "</td></tr>")
+				f_output.write("<tr><td>" + str(ptime) + "</td><td>" + str(Loud_Count) + "</td></tr>")
 			print("Reseting Counters")
 			loop_count = 0
 			etime = time.time() + time_loop # etime is the end time of our loop - the difference between right now and the time_loop value

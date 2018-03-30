@@ -57,6 +57,7 @@ etime = stime + time_loop #etime is the end time of our loop - the difference be
 ptime = time.ctime() #the "pretty" version of the current time - suitable for charts and graphs!
 
 # loop count and max_loop are used for math on the number of detection loops within the time threshold
+Loops_Tot = 0
 loop_count = 0
 max_loop = 10000000
 
@@ -144,6 +145,7 @@ try:
 
 		# Count the number of iterations
 		loop_count = loop_count + 1
+		Loops_Tot = Loops_Tot + 1
 		if GPIO.event_detected(sensor_in):
 
 			# Now we also need to go do our work to update our hardware and software:
@@ -190,7 +192,7 @@ except (KeyboardInterrupt, SystemExit):
 	print(" ")
 	print("Total Noises Detected: " + str(Loud_Count))
 	print(" ")
-	print("Total loops run: " + str(loop_count))
+	print("Total loops run: " + str(Loops_Tot))
 	print(" ")
 	print("-------------------------------------------")
 
@@ -211,7 +213,7 @@ else:
 	print(" ")
 	print("Total Noises Detected: " + str(Loud_Count))
 	print(" ")
-	print("Total loops run: " + str(loop_count))
+	print("Total loops run: " + str(Loops_Tot))
 	print(" ")
 	print("-------------------------------------------")
 	GPIO.cleanup()

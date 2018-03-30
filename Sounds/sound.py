@@ -163,8 +163,14 @@ try:
 		if time.time() > etime:
 			# first we update our output to the web for display:
 			with open(web_file, 'a') as f_output:
-				if louds_per < 5:
-					f_output.write("<tr><td align=center bgcolor=green><font color=white>" + str(ptime) + "</td><td align=center bgcolor=green>" + str(louds_per) + "</font></td></tr>")
+				if louds_per > 5:
+					if louds_per > 10:
+						f_output.write("<tr><td align=center bgcolor=red><font color=white>" + str(ptime) + "</td><td align=center bgcolor=red><font color=white>" + str(louds_per) + "</font></td></tr>")
+					else:
+						f_output.write("<tr><td align=center bgcolor=orange><font color=white>" + str(ptime) + "</td><td align=center bgcolor=orange><font color=white>" + str(louds_per) + "</font></td></tr>")
+				else:
+					f_output.write("<tr><td align=center bgcolor=green><font color=white>" + str(ptime) + "</td><td align=center bgcolor=green><font color=white>" + str(louds_per) + "</font></td></tr>")
+				
 			print("Reseting Counters")
 			loop_count = 0
 			louds_per = 0

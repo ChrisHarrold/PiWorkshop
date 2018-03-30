@@ -48,7 +48,8 @@ with open(web_file + '.new', 'w') as f_output:
 
 # various counters used for determining the thresholds for sensitivity and detection
 # as well as the time of the loop and frequency for debugging
-Loud_Count = 0 # Count of trigger events from the sensor
+Loud_Count = 0 # Count of trigger events from the sensor total since the program started running
+louds_per = 0 # Count of trigger events from the sensor in this time interval
 per_detected = 0 # The percent of loops where sound is detected versus not detected (math performed on this value later)
 time_loop = 5 # The numeric value is how many seconds you want the timestamps to be spaced by
 stime = time.time() # The time right now (in UNIX Datetime format - that is to say a really long string of seconds)
@@ -101,7 +102,7 @@ GPIO.add_event_detect(sensor_in, GPIO.RISING, bouncetime=300)
 def dowork(sensor_in): 
 	# because Python implements loose variables - we have to make sure it knows we are not redefining these
 	# but reusing the global versions. This is not strictly "good code", but there is not a good alternative
-	global Loud_Count, loop_count, per_detected, max_loop
+	global Loud_Count, loop_count, per_detected, max_loop, louds_per
 	
 	# did we detect something?
 	if GPIO.input(sensor_in):
@@ -110,22 +111,23 @@ def dowork(sensor_in):
 
 		# We have NOISE! Add it to the count of Loud events
 		Loud_Count = Loud_Count + 1
+		louds_per = louds_per + 1
 
 		# Now we can see if we are detecting a lot of events or not?
 		# By getting the ratio of events to the number of times we looked for one, we can see if it was
 		# a spike or actually a really noisy time. This is why the "max_loop" variable matters
 		# so you can set the a_threshold value and see if you have consistent noise or just spikes
-		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
+		per_detected = Decimal(louds_per) / Decimal(loop_count)
 		per_detected = round(per_detected, 10)
 		
 		# compare the percent of detection loops to the overall threshold for loudness - that is the ratio
 		# of non-detection loops to detection events - and then respond accordingly:
 		if per_detected > a_threshold:
 			print("REALLY PRETTY LOUD! Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold))
-			print(str(loop_count) + "loops vs " + str(Loud_Count) + " events")
+			print(str(loop_count) + "loops vs " + str(louds_per) + " events")
 		else:
 			print("Meh. Some noise. Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold))
-			print(str(loop_count) + "loops vs " + str(Loud_Count) + " events")
+			print(str(loop_count) + "loops vs " + str(louds_per) + " events")
 
 
 # ------------------------------------------------------------------------------------------
@@ -161,9 +163,11 @@ try:
 		if time.time() > etime:
 			# first we update our output to the web for display:
 			with open(web_file, 'a') as f_output:
-				f_output.write("<tr><td>" + str(ptime) + "</td><td>" + str(Loud_Count) + "</td></tr>")
+				if louds_per < 5:
+					f_output.write("<tr><td align=center bgcolor=green><font color=white>" + str(ptime) + "</td><td align=center bgcolor=green>" + str(louds_per) + "</font></td></tr>")
 			print("Reseting Counters")
 			loop_count = 0
+			louds_per = 0
 			etime = time.time() + time_loop # etime is the end time of our loop - the difference between right now and the time_loop value
 			ptime = time.ctime(etime) # the "pretty" version of the current time block - suitable for charts and graphs!
 			# turn off the RED LED since we are starting a new detection loop - maximum time it would stay on is 5 seconds by default

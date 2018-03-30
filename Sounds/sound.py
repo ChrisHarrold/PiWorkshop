@@ -138,7 +138,7 @@ try:
 	# by default as definied by the time_loop variable)
 	# This is extremely useful for debugging, and for setting the max_loops value
 	etime = time.time() + time_loop #etime is the end time of our loop - the difference between right now and the time_loop value
-	while time.time() < etime:
+	while(True): #time.time() < etime:
 
 		# Count the number of iterations
 		loop_count = loop_count + 1

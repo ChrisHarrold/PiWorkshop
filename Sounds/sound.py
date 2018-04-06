@@ -6,9 +6,9 @@
 # 2) Monitor the sensor for a change in state
 # 3) Output both a visual alert (Red LED) and update a webpage with detection information
 #
-# You can grab this prject from github with the following command:
+# You can grab this project from github with the following command:
 # git clone https://github.com/ChrisHarrold/PiWorkshop.git
-# this project is in the Sounds folder.per_detected#
+# this project is in the Sounds foldermqtt
 # Happy Pi-ing
 
 # ------------------------------------------------------------------------------------------

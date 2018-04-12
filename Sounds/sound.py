@@ -8,7 +8,7 @@
 #
 # You can grab this project from github with the following command:
 # git clone https://github.com/ChrisHarrold/PiWorkshop.git
-# this project is in the Sounds foldermqtt
+# this project is in the Sounds folder
 # Happy Pi-ing
 
 # ------------------------------------------------------------------------------------------
